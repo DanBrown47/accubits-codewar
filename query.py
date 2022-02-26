@@ -33,7 +33,7 @@ def get_by_name(parser:any) -> None:
 def get_all() -> None:
     cursor.execute('SELECT * FROM movies')
     print(cursor.fetchall())
-
+    
 def check_args() -> None:
     parser = argparse.ArgumentParser(description='Movie Database Sorting Script')
     parser.add_argument('-y', '--year', help='Add this tag to query for the best movie in the year', required=False)
@@ -43,7 +43,6 @@ def check_args() -> None:
 
     if not len(sys.argv) > 1:
         parser.print_help()
-    
     if parser.parse_args().year:
         get_by_year(parser)
     elif parser.parse_args().rating:
@@ -56,6 +55,6 @@ def check_args() -> None:
         get_all()
     else:
         parser.print_help()
-        
+  
 if __name__=="__main__":
     check_args()
