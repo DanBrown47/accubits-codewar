@@ -31,15 +31,19 @@ def prober(SCRAP_URL:str) -> list:
     movie = soup.find('tbody',class_='lister-list')
     count = 1
     for tr in movie.find_all('tr'):
-
+        count = count + 1
+        print(count)
         name = tr.find('td',class_='titleColumn').a.text
         link = tr.find('td',class_='titleColumn').a['href']
         year = tr.find('span',class_='secondaryInfo').text
+        year = year.split('(')[1].split(')')[0]
         rating = tr.find('td',class_='ratingColumn imdbRating').text
+        rating = rating.replace('\n','')
         mv_link = 'https://imdb.com{0}'.format(link)
-        count = count + 1
+        
         list_movies.append((count,name,year,rating,mv_link))
     return list_movies
+    
 if __name__ == '__main__':
     movies_list = prober(SCRAP_URL)
     write_db(movies_list)
