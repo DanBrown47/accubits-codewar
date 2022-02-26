@@ -9,6 +9,10 @@ import sqlite3
 # GLOBAL VARIABLES
 # No user input is taken
 SCRAP_URL = 'https://www.imdb.com/chart/top/?ref_=nv_mv_250'
+
+"""
+User agent is to avoid detection otherwise python requests will be send to logs and might be blocked
+"""
 USER_AGENT = """Mozilla/5.0 (Windows NT 6.1; Win64; x64) 
              AppleWebKit/537.36 (KHTML, like Gecko)
              Chrome/78.0.3904.87 Safari/537.36"""
@@ -35,11 +39,13 @@ def prober(SCRAP_URL:str) -> list:
 
     :SCRAP_URL: str
     """
-    
+
     list_movies = []
     page = requests.get(SCRAP_URL, headers={'User-Agent': USER_AGENT})
+    # BeautifulSoup to parse the html using lxml engine
     soup = BeautifulSoup(page.text, 'lxml')
     movie = soup.find('tbody', class_='lister-list')
+    # Find all the movies in the table
     count = 1
     for tr in movie.find_all('tr'):
         count = count + 1
