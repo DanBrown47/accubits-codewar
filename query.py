@@ -3,15 +3,21 @@
 import sqlite3
 import argparse
 import sys
+from tabulate import tabulate
+
+
 # connect to database
 conn = sqlite3.connect('movies.db')
 # create cursor
 cursor = conn.cursor()
 
+def tabulate_data(data:list) -> None:
+    print(tabulate(data, headers=['id', 'name', 'year', 'rating', 'link']))
+
 def get_by_year(parser:any) -> None:
     year = parser.parse_args().year
     cursor.execute('SELECT * FROM movies WHERE year = ?', (year,))
-    print(cursor.fetchall())
+    tabulate_data(cursor.fetchall())
 
 def get_by_rating(parser:any) -> None:
     rating = parser.parse_args().rating
